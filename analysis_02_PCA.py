@@ -105,7 +105,8 @@ for sub in tqdm(json_files.keys()):
             "polarity": [],
             "trial": [],
             "pp_ix": [],
-            "block" : []
+            "block" : [],
+            "sensor": []
         },
         "mot": {
             "waveform": [],
@@ -118,7 +119,8 @@ for sub in tqdm(json_files.keys()):
             "polarity": [],
             "trial": [],
             "pp_ix": [],
-            "block" : []
+            "block" : [],
+            "sensor": []
         }
     }
 
@@ -126,6 +128,7 @@ for sub in tqdm(json_files.keys()):
         big_key = [i for i in ["mot", "vis"] if i in json_file][0]
         with open(json_file) as pipeline_file:
             bs = json.load(pipeline_file)
+        ch_name = json_file.split(sep)[-1].split("-")[0]
         wf = np.array(bs['waveform'])
         wf_median = np.median(wf, axis=1)
         wf_ixs = np.where(
@@ -136,11 +139,12 @@ for sub in tqdm(json_files.keys()):
         wf = wf[wf_ixs,:]
         metrics[big_key]["waveform"].append(wf)
         for k in ["peak_time", "peak_amp_base", "fwhm_freq", "fwhm_time", "peak_freq", "trial", "pp_ix", "block"]:
-            metrics[big_key][k].append(np.array(bs[k])[wf_ixs])      
+            metrics[big_key][k].append(np.array(bs[k])[wf_ixs])
+        metrics[big_key]["sensor"].append([ch_name] * np.array(bs["peak_time"])[wf_ixs].shape[0])
 
     for i in ["mot", "vis"]:
         metrics[i]["waveform"] = np.vstack(metrics[i]["waveform"])
-        for k in ["peak_time", "peak_amp_base", "fwhm_freq", "fwhm_time", "peak_freq", "trial", "pp_ix", "block"]:
+        for k in ["peak_time", "peak_amp_base", "fwhm_freq", "fwhm_time", "peak_freq", "trial", "pp_ix", "block", "sensor"]:
             metrics[i][k] = np.hstack(metrics[i][k])
     sub_metrics[sub] = metrics
 

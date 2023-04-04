@@ -82,7 +82,7 @@ channels_used = [i for i in info.ch_names if many_is_in(["MLC"], i)]
 channels_used = [i for i in channels_used if not many_is_in(sens, i)]
 # channels_used = info.ch_names
 
-burst_path = op.join(subject, "bursts")
+burst_path = op.join(subject, "MU_bursts")
 if op.exists(burst_path):
     print(subject_id, "burst folder exists, abandon operation")
     sys.exit()
@@ -191,7 +191,7 @@ for ch_ix, i in enumerate(channels_used):
             vis_results[i]["pp_ix"].extend((bl*56 + np.array(vis_burst_block[bl][i]["trial"])).astype(int).tolist())
         
         vis_json_name = "MU-{}-{}-visual-burst-iter.json".format(i, subject_id)
-        vis_json_path = op.join(subject, "bursts")
+        vis_json_path = op.join(subject, "MU_bursts")
         files.make_folder(vis_json_path)
         vis_json_path = op.join(vis_json_path, vis_json_name)
         with open(vis_json_path, "w") as fp:

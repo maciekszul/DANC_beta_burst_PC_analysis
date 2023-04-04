@@ -166,7 +166,7 @@ def fwhm_burst_norm(TF, peak):
     return right_loc, left_loc, up_loc, down_loc
 
 
-def extract_bursts(raw_trials, TF, times, search_freqs, band_lims, fooof_thresh, sfreq, beh_ix=None, w_size=.2):
+def extract_bursts(raw_trials, TF, times, search_freqs, band_lims, fooof_thresh, sfreq, beh_ix=None, w_size=.2, thr=2):
     bursts = {
         'trial': [],
         'waveform': [],
@@ -211,7 +211,7 @@ def extract_bursts(raw_trials, TF, times, search_freqs, band_lims, fooof_thresh,
 
         while True:
             # Compute noise floor
-            thresh = 2 * np.std(trial_TF_iter)
+            thresh = thr * np.std(trial_TF_iter)
 
             # Find peak
             [peak_freq_idx, peak_time_idx] = np.unravel_index(np.argmax(trial_TF_iter), trial_TF.shape)

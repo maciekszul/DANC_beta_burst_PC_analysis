@@ -150,22 +150,22 @@ for block, (epo_mot_p, epo_vis_p, slt_mot_p, slt_vis_p) in enumerate(epo_slt_mot
             fooof_THR[channel], 
             sfreq,
             beh_ix=beh_match_vis,
-            w_size=0.26
+            w_size=0.9
         )
         vis_burst_block[block][channel] = block_vis_burst
 
         block_mot_burst = extract_bursts(
-                epo_mot[:,ch_ix,:], 
-                mot_TF[channel],
-                epo_mot_times, 
-                freqs[search_range], 
-                beta_lims, 
-                fooof_THR[channel], 
-                sfreq,
-                beh_ix=beh_match_mot,
-                w_size=0.26
-            )
-        
+            epo_mot[:,ch_ix,:], 
+            mot_TF[channel],
+            epo_mot_times, 
+            freqs[search_range], 
+            beta_lims, 
+            fooof_THR[channel], 
+            sfreq,
+            beh_ix=beh_match_mot,
+            w_size=0.9
+        )
+    
         mot_burst_block[block][channel] = block_mot_burst
         print(subject_id, block, ch_ix+1, "/274")
 
@@ -223,7 +223,7 @@ for ch_ix, i in enumerate(channels_used):
             mot_results[i]["pp_ix"].extend((bl*56 + np.array(mot_burst_block[bl][i]["trial"])).astype(int).tolist())
 
         mot_json_name = "MU-{}-{}-motor-burst-iter.json".format(i, subject_id)
-        mot_json_path = op.join(subject, "bursts")
+        mot_json_path = op.join(subject, "MU_bursts")
         files.make_folder(mot_json_path)
         mot_json_path = op.join(mot_json_path, mot_json_name)
         with open(mot_json_path, "w") as fp:

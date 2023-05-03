@@ -225,7 +225,7 @@ for ch_ix, i in enumerate(channels_used):
             mot_results[i]["pp_ix"].extend((bl*56 + np.array(mot_burst_block[bl][i]["trial"])).astype(int).tolist())
 
         mot_json_name = "3SD-{}-{}-motor-burst-iter.json".format(i, subject_id)
-        mot_json_path = op.join(subject, "bursts")
+        mot_json_path = op.join(subject, "3SD_bursts")
         files.make_folder(mot_json_path)
         mot_json_path = op.join(mot_json_path, mot_json_name)
         with open(mot_json_path, "w") as fp:
